@@ -25,7 +25,7 @@ import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import StarIcon from "@material-ui/icons/Star";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
-import defaultProfile from "../../../src/assets/img/default-profile.png";
+import defaultProfile from "../../../src/assets/img/man.png";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PostReviewModal from "../review/PostReviewModal.component";
 import AllReviewsModal from "../review/AllReviewsModal.component";
@@ -116,11 +116,20 @@ class ListingPage extends Component {
           listingPictures: pictures,
         });
 
+        //get host's name from their userId
+        const userId = this.state.listingUser;
+        app.get(`/user/getUserInfo/${userId}`).then((res) => {
+          this.setState({
+            listingUserName: res.data,
+            hostEmail: res.data.email,
+          });
+        });
+
         // Set default disabled days based on booked days in listing object
         let startDate = new Date(this.state.listingStartDate);
         let endDate = new Date(this.state.listingEndDate);
-        endDate.setDate(endDate.getDate() + 1);
-        startDate.setDate(startDate.getDate() + 1);
+        // endDate.setDate(endDate.getDate() + 1);
+        // startDate.setDate(startDate.getDate() + 1);
         let bookedDays = [
           {
             after: endDate,
@@ -144,18 +153,6 @@ class ListingPage extends Component {
         this.setState({
           listingBookedDays: bookedDays,
           today: today.setUTCHours(0, 0, 0, 0),
-        });
-        // Get host's email from their userId
-        app.get(`/user/getUserInfo/${this.state.listingUser}`).then((res) =>
-          this.setState({
-            hostEmail: res.data.email,
-            isLoading: false,
-          })
-        );
-        //get host's name from their userId
-        const userId = this.state.listingId;
-        app.get(`/user/getUserInfo/${userId}`).then((res) => {
-          this.setState({ listingUserName: res.data });
         });
 
         // Update listingRatings to include user's name for each review
@@ -281,8 +278,20 @@ class ListingPage extends Component {
   }
 
   handleDayClick(day) {
+    let day_time_set = new Date(day);
+    day_time_set.setHours(0, 0, 0, 1);
+    const day_utc = new Date(day_time_set.toISOString()).getTime();
+
+    let current_day = new Date();
+    current_day.setHours(0,0,0,1);
+    const current_day_utc = new Date(current_day.toISOString()).getTime();
+
     // Check listing availability dates separately
-    if (day < this.state.today) {
+    if (
+      day_utc < current_day_utc ||
+      day_utc < this.state.listingStartDate ||
+      day_utc > this.state.listingEndDate
+    ) {
       this.setState({
         outOfRange: true,
       });
@@ -291,7 +300,7 @@ class ListingPage extends Component {
     for (let i = 0; i < this.state.listingBookedDays.length; i++) {
       // Have to subtract one from end date of reservation because of offset
       const endDate = new Date(this.state.listingBookedDays[i].before);
-      endDate.setDate(endDate.getDate() - 1);
+      // endDate.setDate(endDate.getDate() - 1);
       // Check if selected day falls within any of the disabled days
       if (day < endDate && day > this.state.listingBookedDays[i].after) {
         this.setState({
@@ -335,13 +344,13 @@ class ListingPage extends Component {
   render() {
     const { from, to } = this.state;
     const modifiers = { start: from, end: to };
-    console.log(this.state.listingCoord);
+    // console.log(this.state.listingCoord);
 
     // const lessThanFourDays =
     //   parseInt((this.state.to - this.state.from) / (1000 * 3600 * 24)) + 1 < 4
     //     ? true
     //     : false;
-
+    // console.log(this.state.listingUserName)
     const getStars = () => {
       let reviews = [];
       for (let props in this.state.listingRatings) {
@@ -400,7 +409,7 @@ class ListingPage extends Component {
             />
           </div>
         </Modal>
-        {!this.state.listingPictures ? (
+        {!this.state.listingPictures || !this.state.listingUserName ? (
           <div id="spinner"></div>
         ) : (
           <div>

@@ -1,6 +1,7 @@
 import { SET_LOADING_TRUE, SET_LOADING_FALSE } from "../actions/loadingActions";
 import { COMPLETE_FORM, INCOMPLETE_FORM } from "../reducers/createListingTypes";
-export default function (
+
+export default function reducer(
   state = { loading: false, formCompleted: true },
   action
 ) {

@@ -3,7 +3,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import moment from "moment";
 import { NavLink } from "react-router-dom";
 
-import defaultProfile from "../../../src/assets/img/default-profile.png";
+import defaultProfile from "../../../src/assets/img/man.png";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import StarIcon from "@material-ui/icons/Star";

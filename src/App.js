@@ -14,7 +14,7 @@ import { Route, Switch, useHistory } from "react-router-dom";
 import CreateListing from "./components/createListing/createListing.component";
 import MyAccount from "./components/myAccount/menu.component";
 import ListingPage from "./components/listingPage/listingPage.component";
-import EditListing from "./components/editListing/editListing";
+// import EditListing from "./components/editListing/editListing";
 import PaymentSuccess from "./components/listingPage/paymentSuccess.component";
 import AccountVerification from "./components/authentication/verifyAccount.component";
 import ActivateReservation from "./components/reservations/activateReservation.component";
@@ -91,7 +91,7 @@ function App() {
             <Route
               path="/EditListing/:listingId"
               exact
-              component={EditListing}
+              render={() => <CreateListing isEditing={true} />}
             />
             <Route path="/PaymentSuccess" exact component={PaymentSuccess} />
             <Route

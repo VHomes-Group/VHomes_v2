@@ -153,9 +153,8 @@
   background: var(--color-green);
   cursor: pointer;
   transition: all 0.2s;
-  margin-bottom: 1.5rem;
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
+  margin: 0 0.5rem 1.5rem 0.5rem;
+  width: 10rem;
 }
 
 .edit-listing-export-url {

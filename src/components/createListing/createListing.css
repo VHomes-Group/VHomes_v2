@@ -674,6 +674,31 @@ span.import-info {
   align-items: center;
 }
 
+#upload-file[type="file"] {
+  display: none;
+  height: 0;
+  overflow: hidden;
+  width: 0;
+  visibility: hidden;
+}
+
+.select-img {
+  border-radius: 0.5rem;
+  border: solid 3px #00b183;
+  /* font-weight: bolder; */
+  margin: 0 auto;
+  padding: 1rem;
+  transition: all 250ms ease;
+  width: 10rem;
+}
+
+.select-img:hover {
+  background-color: #00b183;
+  color: white;
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
 @media screen and (max-width: 490px) {
   .create-listing-image {
     max-height: 150px !important;

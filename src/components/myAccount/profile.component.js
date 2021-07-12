@@ -5,6 +5,7 @@ import { app } from "../../utils/axiosConfig.js";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 
 import ImageCrop from "./imageCrop.component";
+import DefaultProfileImg from "../../assets/img/man.png";
 import "./profile.css";
 import "react-image-crop/dist/ReactCrop.css";
 
@@ -71,14 +72,26 @@ const Profile = (props) => {
                   className="profile-select-img"
                   style={{ display: "block" }}
                 >
-                  <img
-                    className="profile-image"
-                    src={user.userInfo.profileImg}
-                    alt="Profile Pic"
-                    onError={(e) =>
-                      (e.target.src = "/images/abstract-user-flat-4.svg")
-                    }
-                  />
+                  {user.userInfo.profileImg ? (
+                    <img
+                      className="profile-image"
+                      src={user.userInfo.profileImg}
+                      alt="Profile Pic"
+                      onError={(e) =>
+                        (e.target.src = "/images/abstract-user-flat-4.svg")
+                      }
+                    />
+                  ) : (
+                    <img
+                      className="profile-image"
+                      src={DefaultProfileImg}
+                      alt="Profile Pic"
+                      onError={(e) =>
+                        (e.target.src = "/images/abstract-user-flat-4.svg")
+                      }
+                    />
+                  )}
+
                   <div className="profile-upload-container">
                     {/* <i className="far fa-file-image" /> */}
                     <span className="profile-upload-text">Upload</span>

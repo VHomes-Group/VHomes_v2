@@ -89,18 +89,11 @@ class Listings extends Component {
     if (props[listingType] && props[listingType] !== state.listings) {
       const activeListings = props[listingType].filter((listing) => {
         // Split string to Year (idx 0), Month (idx 1), Day (idx 2) then convert to num
-        const expireDate = listing.available[1].split("-").map((date) => {
-          return Number.parseInt(date, 10);
-        });
-        // Convert using to milliseconds
-        const expireDateConverted = new Date(
-          expireDate[0],
-          expireDate[1] - 1,
-          expireDate[2]
-        ).getTime();
-        const curDate = new Date().getTime();
+        const expireDate = listing.available[1];
+        const curDateUTC = new Date().toISOString();
+        const curDateTimestamp = new Date(curDateUTC).getTime();
         // Compare to check if curDate is past expired
-        let isExpired = curDate > expireDateConverted;
+        let isExpired = curDateTimestamp > expireDate;
         if (isExpired && state.hideExpired) return false;
         else return true;
       });
